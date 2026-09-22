@@ -540,6 +540,7 @@
           </div>
 
           <form class="form" id="contactForm" novalidate data-anim="fade">
+            <span class="form__progress" aria-hidden="true"></span>
             <div class="form__head">
               <h3 class="form__title">Send me a message</h3>
               <p class="form__hint">Fields marked <span class="req" aria-hidden="true">*</span><span class="sr-only">with a star</span> are required.</p>
@@ -577,7 +578,8 @@
             </div>
 
             <div class="form__footer">
-              <button class="btn btn--primary" type="submit" id="formSubmit">
+              <button class="btn btn--primary form__submit" type="submit" id="formSubmit">
+                <span class="form__spinner" aria-hidden="true"></span>
                 <span id="formSubmitLabel">Send Message</span>
                 <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 16 8m0 0H9.500M16 8v6.500"/></svg>
               </button>
@@ -585,6 +587,36 @@
               <p class="form__status" id="formStatus" role="status" aria-live="polite"></p>
             </div>
           </form>
+
+          <!-- shown in place of the form after a successful send (script.js) -->
+          <div class="ticket" id="formDone" hidden role="status" aria-live="polite">
+            <div class="ticket__head">
+              <span class="ticket__pulse" aria-hidden="true"></span>
+              <span class="ticket__status">Delivered</span>
+              <span class="ticket__ref" id="ticketRef">ES-0000</span>
+            </div>
+
+            <h3 class="ticket__title">Got it, <span id="formDoneName">friend</span>.</h3>
+
+            <dl class="ticket__meta">
+              <div><dt>To</dt><dd>Essa Muhammad</dd></div>
+              <div><dt>From</dt><dd id="ticketFrom">—</dd></div>
+              <div><dt>Subject</dt><dd id="ticketSubject">—</dd></div>
+              <div><dt>Sent</dt><dd id="ticketTime">—</dd></div>
+            </dl>
+
+            <ol class="track">
+              <li class="track__step is-done"><span class="track__node"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12.500 4 4L18 8"/></svg></span><span class="track__label">Message sent</span></li>
+              <li class="track__step is-next"><span class="track__node"></span><span class="track__label">Essa reads it</span></li>
+              <li class="track__step"><span class="track__node"></span><span class="track__label">You get a reply by email or WhatsApp</span></li>
+            </ol>
+
+            <div class="ticket__actions">
+              <a class="btn btn--primary" href="https://wa.me/923442611643" target="_blank" rel="noopener noreferrer">Continue on WhatsApp</a>
+              <button class="btn btn--ghost" id="formAgain" type="button">Send another</button>
+            </div>
+          </div>
+          </div>
 
           <!-- EDIT: describe how you really work. No reply times are promised here on purpose. -->
           <div class="steps" data-anim="fade">

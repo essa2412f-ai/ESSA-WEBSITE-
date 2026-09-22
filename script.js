@@ -1099,11 +1099,38 @@
     var submitLabel = doc.getElementById('formSubmitLabel');
     var sending = false;
 
+    var done = doc.getElementById('formDone');
+    var again = doc.getElementById('formAgain');
+
     function setSending(state) {
       sending = state;
+      form.classList.toggle('is-sending', state);
       if (submitButton) submitButton.disabled = state;
       if (submitLabel) submitLabel.textContent = state ? 'Sending…' : 'Send Message';
     }
+
+    // Swap the form for the delivery ticket (and back)
+    function showDone(data) {
+      if (!done) return;
+      var who = doc.getElementById('formDoneName');
+      if (who) who.textContent = data.name ? data.name.split(/\s+/)[0] : 'friend';
+      var set = function (id, value) { var el = doc.getElementById(id); if (el) el.textContent = value; };
+      set('ticketFrom', data.email || '—');
+      set('ticketSubject', data.subject || '—');
+      var now = new Date();
+      set('ticketTime', now.toLocaleString(undefined, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }));
+      set('ticketRef', 'ES-' + String(now.getFullYear()).slice(2) + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(Math.floor(Math.random() * 9000) + 1000));
+      form.hidden = true;
+      done.hidden = false;
+      // restart the tracker animations each time
+      Array.prototype.forEach.call(done.querySelectorAll('.track__step'), function (step) { step.style.animation = 'none'; step.offsetHeight; step.style.animation = ''; });
+      if (window.gsap && !reducedMotion.matches) gsap.from(done.children, { y: 16, opacity: 0, duration: 0.6, stagger: 0.07, ease: 'power3.out' });
+      done.setAttribute('tabindex', '-1'); done.focus({ preventScroll: true });
+    }
+    if (again) again.addEventListener('click', function () {
+      done.hidden = true; form.hidden = false; setStatus('', '');
+      var first = form.querySelector('.field__input'); if (first) first.focus({ preventScroll: true });
+    });
 
     // Sends the message to the Google Apps Script web app, which appends a row to the sheet.
     // A URL-encoded POST is a "simple" request, so the browser needs no CORS pre-flight.
@@ -1145,7 +1172,8 @@
 
       sendToSheet(data).then(function () {
         form.reset();
-        setStatus('Message sent. Thank you — I will get back to you soon.', 'sent');
+        setStatus('', '');
+        showDone(data);
       }).catch(function () {
         // Only ever claim success when the sheet confirmed it.
         setStatus('Your message could not be sent right now. Please email essamuhammad5056@gmail.com or message me on WhatsApp.', 'error');
