@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en" class="is-loading">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ES.DEV | Essa Muhammad — Web Developer</title>
+  <meta name="description" content="Portfolio of Essa Muhammad, a web developer in Karachi building responsive, modern and user-friendly websites with HTML, CSS, JavaScript, WordPress and React.">
+  <meta name="theme-color" content="#05070C">
+  <meta name="color-scheme" content="light">
+
+  <!-- Open Graph basics -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ES.DEV">
+  <meta property="og:title" content="ES.DEV | Essa Muhammad — Web Developer">
+  <meta property="og:description" content="Portfolio of Essa Muhammad, a web developer in Karachi building responsive, modern and user-friendly websites.">
+  <!-- REPLACE: once the site has a real domain, add og:url and an absolute og:image URL here.
+  <meta property="og:url" content="https://YOUR-DOMAIN/">
+  <meta property="og:image" content="https://YOUR-DOMAIN/share.jpg">
+  -->
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <!-- Fonts are self-hosted in assets/fonts (no Google Fonts request). -->
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Without JavaScript there is no loader to play, so it is removed and the page shows normally. -->
+  <noscript><style>.loader { display: none !important; } html.is-loading { overflow: auto !important; }</style></noscript>
+
+  <!-- Animation engine, stored locally (see assets/vendor/README.txt) -->
+  <script src="gsap.min.js" defer></script>
+  <script src="ScrollTrigger.min.js" defer></script>
+  <script src="script.js" defer></script>
+  <script src="tech-showcase.js" defer></script>
+</head>
+<body>
+
+  <!-- ============================== LOADER ==============================
+       First element in <body> and black by default in style.css, so the very first paint is black:
+       no flash of the page before it. script.js drives the sequence and removes it afterwards. -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__texture"></div>
+
+    <!-- cinematic frame: tiny corner labels + a hairline progress rule -->
+    <div class="loader__frame" id="loaderFrame">
+      <span class="loader__label loader__label--tl">ES<i></i>DEV</span>
+      <span class="loader__label loader__label--tr">Portfolio / 2026</span>
+      <span class="loader__label loader__label--bl">Essa Muhammad — Web Developer</span>
+    </div>
+    <div class="loader__progress" id="loaderProgress"></div>
+
+    <div class="terminal" id="loaderTerminal">
+      <p class="terminal__line"><span class="terminal__prompt">&gt;</span><span class="terminal__text"></span><span class="terminal__lead"></span><span class="terminal__ok">ok</span></p>
+      <p class="terminal__line"><span class="terminal__prompt">&gt;</span><span class="terminal__text"></span><span class="terminal__lead"></span><span class="terminal__ok">ok</span></p>
+      <p class="terminal__line"><span class="terminal__prompt">&gt;</span><span class="terminal__text"></span><span class="terminal__lead"></span><span class="terminal__ok">ok</span></p>
+      <p class="terminal__line"><span class="terminal__prompt">&gt;</span><span class="terminal__text"></span><span class="terminal__lead"></span><span class="terminal__ok">ok</span></p>
+      <span class="terminal__cursor" id="loaderCursor"></span>
+    </div>
+
+    <div class="brand" id="loaderBrand">
+      <span class="brand__guide brand__guide--cap" aria-hidden="true"></span>
+      <span class="brand__guide brand__guide--base" aria-hidden="true"></span>
+      <span class="brand__es" id="brandEs">ES</span><span class="brand__dev" id="brandDev"><span class="brand__dot" id="brandDot"></span><span class="brand__devtext" id="brandDevText">DEV</span></span>
+    </div>
+
+    <div class="loader__scan" id="loaderScan"></div>
+    <div class="loader__counter" id="loaderCounter">01</div>
+
+    <div class="loader__blue" id="loaderBlue">
+      <div class="loader__panel loader__panel--left"></div>
+      <div class="loader__panel loader__panel--right"></div>
+    </div>
+  </div>
+
+  <a class="skip-link" href="#about">Skip to content</a>
+
+  <!-- Used by script.js to switch the navbar into its "scrolled" state without a scroll listener -->
+  <div class="scroll-sentinel" id="scrollSentinel" aria-hidden="true"></div>
+
+  <!-- ============================== NAVBAR ============================== -->
+  <header class="navbar" id="navbar">
+    <div class="navbar__bar">
+      <span class="navbar__progress" id="navProgress" aria-hidden="true"></span>
+      <a class="logo" href="#home" aria-label="ES.DEV — back to top">ES<span class="logo__dot" aria-hidden="true"></span><span class="sr-only">.</span>DEV</a>
+
+      <nav class="nav" id="navMenu" aria-label="Main navigation">
+        <ul class="nav__list">
+          <li><a class="nav__link is-active" href="#home" aria-current="true">Home</a></li>
+          <li><a class="nav__link" href="#about">About</a></li>
+          <li><a class="nav__link" href="#services">Services</a></li>
+          <li><a class="nav__link" href="#tech">Tech</a></li>
+          <li><a class="nav__link" href="#projects">Projects</a></li>
+          <li><a class="nav__link" href="#skills">Skills</a></li>
+          <li><a class="nav__link" href="#journey">Journey</a></li>
+          <li><a class="nav__link" href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <a class="btn btn--dark btn--sm navbar__cta" href="#contact">Let's talk</a>
+
+      <button class="nav-toggle" id="navToggle" type="button"
+              aria-label="Open menu" aria-expanded="false" aria-controls="navMenu">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ============================== HERO ==============================
+         Layers, back to front: pointer light → pale ES.DEV wordmark → copy + portrait arch → small labels. -->
+    <section class="hero" id="home" aria-label="Introduction">
+      <div class="hero__light" id="heroLight" aria-hidden="true"></div>
+      <!-- SuperDesign TubesCursor: real WebGL layer, kept behind the existing hero UI. -->
+      <canvas id="tubes-canvas" class="hero__tubes" aria-hidden="true"></canvas>
+
+      <div class="hero__wordmark" data-depth="-8" aria-hidden="true">
+        <span class="fit" data-fit><span class="wm">E</span><span class="wm">S</span><span class="wm wm--dot"></span><span class="wm">D</span><span class="wm">E</span><span class="wm">V</span></span>
+      </div>
+
+      <div class="container hero__stage" id="heroStage">
+        <div class="hero__copy">
+          <p class="hero__status" data-hero="copy"><span class="status__dot" aria-hidden="true"></span>Available for select projects</p>
+
+          <p class="hero__greeting" data-hero="copy">
+            Hi, I'm <strong>Essa Muhammad</strong>
+            <span class="hero__role">
+              <span class="sr-only">Web Developer, Frontend Developer and WordPress Developer</span>
+              <span aria-hidden="true"><span id="typedRole">Web Developer</span><span class="type-cursor"></span></span>
+            </span>
+          </p>
+
+          <h1 class="hero__title">
+            <span class="line"><span class="line__inner">I build digital</span></span>
+            <span class="line"><span class="line__inner">experiences that</span></span>
+            <span class="line"><span class="line__inner">feel as good</span></span>
+            <span class="line"><span class="line__inner">as they <em>work.</em></span></span>
+          </h1>
+
+          <p class="hero__expertise" data-hero="copy">Frontend <i aria-hidden="true"></i> WordPress <i aria-hidden="true"></i> React</p>
+
+          <div class="hero__actions" data-hero="cta">
+            <a class="btn btn--primary" href="#projects">View Projects</a>
+            <a class="btn btn--ghost" href="#contact">Let's Talk</a>
+            <!-- Opens cv.html: a branded page with the CV preview and a Download button. Replace essa-cv.pdf to update the CV. -->
+            <a class="link-cv" id="downloadCv" href="cv.html">
+              <span class="link-cv__icon" aria-hidden="true">
+                <span class="link-cv__clip"><svg class="link-cv__arrow" viewBox="0 0 24 24"><path d="M12 3v12m0 0-4.500-4.500M12 15l4.500-4.500"/></svg></span>
+                <svg class="link-cv__tray" viewBox="0 0 24 24"><path d="M5 20h14"/></svg>
+                <svg class="link-cv__check" viewBox="0 0 24 24"><path d="m5 12.500 4.500 4.500L19 7.500"/></svg>
+              </span>
+              <span class="link-cv__roll" aria-hidden="false">
+                <span class="link-cv__label" id="downloadCvLabel">Download CV</span>
+                <span class="link-cv__label link-cv__label--alt" aria-hidden="true">View &amp; save</span>
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <div class="hero__visual" data-depth="7">
+          <!-- Portrait: cut-out photo (transparent background) inside the blue arch.
+               It is shown in black & white and returns to colour on hover.
+               Files: essa-profile.webp + essa-profile.png (fallback), ~760px wide. -->
+          <figure class="portrait">
+            <div class="portrait__arch">
+              <picture>
+                <source srcset="essa-profile.webp" type="image/webp">
+                <img id="heroImage" src="essa-profile.png" alt="Portrait of Essa Muhammad" width="760" height="880" fetchpriority="high">
+              </picture>
+            </div>
+            <figcaption class="portrait__tag" data-hero="detail">
+              <strong>Essa Muhammad</strong>
+              <span>Web Developer · Karachi</span>
+            </figcaption>
+          </figure>
+          <p class="hero__label" data-hero="detail">Portfolio / 2026</p>
+        </div>
+      </div>
+
+      <a class="scroll-indicator" href="#about" aria-label="Scroll to About section" data-hero="detail">
+        <span class="scroll-indicator__mouse" aria-hidden="true"><span></span></span>
+      </a>
+    </section>
+
+    <!-- ============================== ABOUT ============================== -->
+    <section class="section" id="about" aria-labelledby="aboutTitle">
+      <div class="container">
+        <header class="shead" data-anim="head">
+          <h2 class="shead__title" id="aboutTitle">About Me</h2>
+          <p class="shead__note">Web Developer, Karachi</p>
+        </header>
+
+        <div class="about">
+          <p class="about__lead" data-anim="words">I'm Essa Muhammad, a web developer with <em>2 years</em> of practical experience creating modern, responsive and user-friendly websites.</p>
+
+          <div class="about__grid" data-anim="about-grid">
+            <!-- essa.js — a small editor. script.js moves the active line and "runs" the file once when it scrolls into view. -->
+            <div class="editor" id="editor" data-anim="editor" aria-hidden="true">
+              <div class="editor__tabs"><span class="editor__tab">essa.js</span><span class="editor__dots"><i></i><i></i><i></i></span></div>
+<ol class="editor__code">
+<li><span class="c-key">const</span> <span class="c-var">essa</span> = {</li>
+<li>  <span class="c-prop">role</span>: <span class="c-str">"Web Developer"</span>,</li>
+<li>  <span class="c-prop">based</span>: <span class="c-str">"Karachi"</span>,</li>
+<li>  <span class="c-prop">experience</span>: <span class="c-str">"2 years"</span>,</li>
+<li>  <span class="c-prop">stack</span>: [</li>
+<li>    <span class="c-str">"HTML"</span>, <span class="c-str">"CSS"</span>, <span class="c-str">"JavaScript"</span>,</li>
+<li>    <span class="c-str">"WordPress"</span>, <span class="c-str">"React"</span></li>
+<li>  ],</li>
+<li>  <span class="c-prop">focus</span>: <span class="c-str">"clean, responsive UI"</span>,</li>
+<li>  <span class="c-prop">available</span>: <span class="c-bool">true</span></li>
+<li>};</li>
+</ol>
+              <div class="editor__console">
+                <p><span class="c-prompt">$</span> <span id="consoleCmd">node essa.js</span><span class="editor__caret" id="consoleCaret"></span></p>
+                <p class="editor__out" id="consoleOut"><span class="c-ok">✓</span> Available for select projects</p>
+              </div>
+              <div class="editor__status"><span>JavaScript</span><span id="editorPos">Ln 1, Col 1</span></div>
+            </div>
+
+            <div class="about__side" data-anim="about-side">
+              <p class="about__text" data-anim="fade">I work with HTML, CSS, JavaScript, WordPress and React, with a focus on clean code, great design and a strong user experience. I enjoy turning ideas into real websites and I'm always looking for opportunities to learn and grow.</p>
+
+              <dl class="info" data-anim="rows">
+                <div class="info__cell"><dt>Name</dt><dd>Essa Muhammad</dd></div>
+                <div class="info__cell"><dt>Role</dt><dd>Web Developer</dd></div>
+                <div class="info__cell"><dt>Experience</dt><dd>2 years</dd></div>
+                <div class="info__cell"><dt>Location</dt><dd>Karachi, Pakistan</dd></div>
+                <div class="info__cell info__cell--wide"><dt>Email</dt><dd><a href="mailto:essamuhammad5056@gmail.com">essamuhammad5056@gmail.com</a></dd></div>
+              </dl>
+
+              <div class="about__actions" data-anim="fade">
+                <a class="btn btn--primary" href="#contact">Let's Talk</a>
+                <a class="btn btn--ghost" href="#projects">See My Work</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== SERVICES ==============================
+         What a client can hire Essa for. Every line is based on the experience listed in the CV.
+         EDIT the wording freely. Each link pre-fills the Subject field of the contact form. -->
+    <section class="section section--alt" id="services" aria-labelledby="servicesTitle">
+      <div class="container">
+        <header class="shead" data-anim="head">
+          <h2 class="shead__title" id="servicesTitle">What I can do for you</h2>
+          <p class="shead__note">Three ways to work with me</p>
+        </header>
+
+        <div class="services" data-anim="services">
+          <article class="service">
+            <span class="service__index" aria-hidden="true">01</span>
+            <h3 class="service__title">Business &amp; portfolio websites</h3>
+            <p class="service__text">Responsive websites built by hand with HTML, CSS and JavaScript: clean, fast to use and comfortable on every screen size.</p>
+            <ul class="service__list">
+              <li>Responsive layout for phone, tablet and desktop</li>
+              <li>Clean, maintainable code</li>
+              <li>Clear, usable interface</li>
+            </ul>
+            <p class="stack" aria-label="Built with"><a class="stack__chip" href="#tech" data-tech="html">HTML</a><a class="stack__chip" href="#tech" data-tech="css">CSS</a><a class="stack__chip" href="#tech" data-tech="js">JavaScript</a></p>
+            <a class="service__link" href="#contact" data-subject="New website">Start a website <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 16 8m0 0H9.500M16 8v6.500"/></svg></a>
+          </article>
+
+          <article class="service">
+            <span class="service__index" aria-hidden="true">02</span>
+            <h3 class="service__title">WordPress websites</h3>
+            <p class="service__text">WordPress sites built and customized to your project's requirements, from the first page to the finished site.</p>
+            <ul class="service__list">
+              <li>Built to your requirements</li>
+              <li>Theme and layout customization</li>
+              <li>Responsive on all devices</li>
+            </ul>
+            <p class="stack" aria-label="Built with"><a class="stack__chip" href="#tech" data-tech="wordpress">WordPress</a></p>
+            <a class="service__link" href="#contact" data-subject="WordPress website">Start a WordPress site <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 16 8m0 0H9.500M16 8v6.500"/></svg></a>
+          </article>
+
+          <article class="service">
+            <span class="service__index" aria-hidden="true">03</span>
+            <h3 class="service__title">React interfaces</h3>
+            <p class="service__text">Modern, component-based user interfaces built with React, with the same focus on clean UI and usability.</p>
+            <ul class="service__list">
+              <li>Component-based front-ends</li>
+              <li>Responsive layouts</li>
+              <li>Clean UI implementation</li>
+            </ul>
+            <p class="stack" aria-label="Built with"><a class="stack__chip" href="#tech" data-tech="react">React</a><a class="stack__chip" href="#tech" data-tech="js">JavaScript</a></p>
+            <a class="service__link" href="#contact" data-subject="React project">Start a React project <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 16 8m0 0H9.500M16 8v6.500"/></svg></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== TECH STACK ==============================
+         Scroll-driven showcase: the section pins (desktop/tablet) and the wheel moves the rail,
+         one technology active at a time. Content lives in TECHNOLOGIES inside tech-showcase.js. -->
+    <section class="section section--alt tech" id="tech" aria-labelledby="techTitle">
+      <div class="tech__sticky">
+      <div class="container tech__inner">
+        <header class="shead tech__head">
+          <h2 class="shead__title" id="techTitle">Tech Stack</h2>
+          <p class="shead__note tech__note">Tools behind the experiences</p>
+          <p class="tech__counter" aria-live="polite"><span id="techIndex">01</span><span class="tech__counter-bar" aria-hidden="true"><i id="techBar"></i></span><span id="techTotal">09</span></p>
+        </header>
+
+        <div class="tech__stage">
+          <!-- the rail: one button per technology, rendered by tech-showcase.js -->
+          <div class="tech__rail" id="techRail" role="tablist" aria-label="Technologies"></div>
+
+          <!-- the active technology's story -->
+          <div class="tech__info" id="techInfo" aria-live="polite">
+            <p class="tech__name" id="techName"></p>
+            <p class="tech__desc" id="techDesc"></p>
+            <ul class="tech__tags" id="techTags"></ul>
+            <button class="tech__more" id="techMore" type="button">More about this<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 16 8m0 0H9.500M16 8v6.500"/></svg></button>
+          </div>
+
+          <p class="tech__hint" id="techHint" aria-hidden="true"><span class="tech__hint-line"></span>Scroll to explore</p>
+        </div>
+
+        <!-- click detail panel (stays inside the section, no navigation) -->
+        <div class="tech__detail" id="techDetail" role="dialog" aria-modal="true" aria-labelledby="techDetailName" hidden>
+          <div class="tech__detail-inner">
+            <button class="tech__detail-close" id="techClose" type="button" aria-label="Close details"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+
+            <div class="tech__detail-side">
+              <span class="tech__detail-watermark" id="techDetailWatermark" aria-hidden="true">04</span>
+              <p class="tech__detail-index" id="techDetailIndex"></p>
+              <div class="tech__detail-logo" id="techDetailLogo" aria-hidden="true"></div>
+              <h3 class="tech__detail-name" id="techDetailName"></h3>
+            </div>
+
+            <div class="tech__detail-body">
+              <p class="tech__detail-kicker">Technology</p>
+              <p class="tech__detail-desc" id="techDetailDesc"></p>
+              <p class="tech__detail-label">I use it for</p>
+              <ol class="tech__detail-list" id="techDetailList"></ol>
+              <div class="tech__detail-actions">
+                <button class="tech__detail-nav" id="techPrev" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span><small>Previous</small><b id="techPrevName"></b></span></button>
+                <button class="tech__detail-nav tech__detail-nav--next" id="techNext" type="button"><span><small>Next</small><b id="techNextName"></b></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- ============================== PROJECTS ============================== -->
+    <section class="section" id="projects" aria-labelledby="projectsTitle">
+      <div class="container">
+        <header class="shead" data-anim="head">
+          <h2 class="shead__title" id="projectsTitle">Featured Projects</h2>
+          <p class="shead__note">Work that is live and in use</p>
+        </header>
+
+        <!-- CASE STUDY 01 — real project from Essa's CV.
+             TO ADD A REAL SCREENSHOT: save it as project-1.jpg (16:10, about 1600 × 1000px), then
+             replace the whole <div class="case__title-card"> ... </div> block below with:
+             TO ADD ANOTHER PROJECT: copy the whole <article class="case"> block below it and change the number, name, text and image.
+             Each project gets the same scroll-driven scene automatically.
+             A visual-only project (no link) simply has no <a class="btn ... case__cta"> inside .case__info. -->
+        <article class="case" data-anim="case">
+          <div class="case__visual" data-case="visual">
+            <span class="case__watermark" aria-hidden="true">01</span>
+            <div class="browser case__frame" data-case="browser">
+              <picture class="case__shot" data-case="shot">
+                <source srcset="candy-cloudz-mockup.webp" type="image/webp">
+                <img class="candy-cloudz-preview" src="candy-cloudz-mockup.jpg" alt="Candy Cloudz responsive website shown on laptop, tablet and mobile devices" width="1677" height="938" loading="lazy">
+              </picture>
+            </div>
+          </div>
+
+          <div class="case__info">
+            <p class="case__number"><span class="mask"><span class="mask__inner" data-case="number">01 / Featured</span></span></p>
+            <h3 class="case__name"><span class="mask"><span class="mask__inner" data-case="name">Candy Cloudz</span></span></h3>
+            <p class="case__text" data-case="text">A responsive website designed and developed by me from start to finish, built to look and work well on phones, tablets and desktops.</p>
+
+            <dl class="case__meta" data-case="meta">
+              <div><dt>Role</dt><dd>Design &amp; Development</dd></div>
+              <div><dt>Type</dt><dd>Responsive Website</dd></div>
+              <div><dt>Status</dt><dd><span class="case__live"><span class="status__dot" aria-hidden="true"></span>Live</span></dd></div>
+              <!-- OPTIONAL: <div><dt>Technology</dt><dd>YOUR STACK</dd></div>  <div><dt>Year</dt><dd>YEAR</dd></div> -->
+            </dl>
+
+            <a class="btn btn--primary case__cta" data-case="text" href="https://candycloudtest.syntaxdynamics.com" target="_blank" rel="noopener noreferrer" aria-label="View the live Candy Cloudz website (opens in a new tab)">
+              Live Project
+              <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 16 8m0 0H9.500M16 8v6.500"/></svg>
+            </a>
+          </div>
+        </article>
+        <!-- TO ADD ANOTHER PROJECT: copy the whole <article class="case"> block, change the watermark/number to 02,
+             the name, text, image and link. Add class="case--flip" to the article to put the image on the right.
+             A visual-only project (no link) simply has no <a class="btn ... case__cta"> inside .case__info. -->
+      </div>
+    </section>
+
+    <!-- ============================== SKILLS ============================== -->
+    <section class="section section--alt" id="skills" aria-labelledby="skillsTitle">
+      <div class="container">
+        <header class="shead" data-anim="head">
+          <h2 class="shead__title" id="skillsTitle">My Skills</h2>
+          <p class="shead__note">Technologies and tools I work with</p>
+        </header>
+
+        <!-- Everything here comes from Essa's CV. Add or remove <li> items freely. -->
+        <div class="spec">
+          <article class="spec__card spec__card--dark" data-anim="spec">
+            <p class="spec__label">Frontend <span>04</span></p>
+            <ul class="spec__items spec__items--big">
+              <li><i>01</i>HTML5</li>
+              <li><i>02</i>CSS3</li>
+              <li><i>03</i>JavaScript</li>
+              <li><i>04</i>React</li>
+            </ul>
+          </article>
+
+          <div class="spec__col">
+            <article class="spec__card" data-anim="spec">
+              <p class="spec__label">CMS <span>01</span></p>
+              <ul class="spec__items spec__items--big">
+                <li><i>01</i>WordPress</li>
+              </ul>
+              <p class="spec__note">Built and customized to project requirements.</p>
+            </article>
+
+            <article class="spec__card" data-anim="spec">
+              <p class="spec__label">Capabilities <span>06</span></p>
+              <ul class="spec__items spec__items--checks">
+                <li>Responsive Websites</li>
+                <li>Front-End Development</li>
+                <li>WordPress Development</li>
+                <li>React Development</li>
+                <li>Clean UI</li>
+                <li>Website Usability</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== JOURNEY (Education + Experience) ==============================
+         One connected timeline. Only facts from Essa's CV are shown — no dates were given, so none are invented.
+         #education and #experience are kept as anchors so old links still work. -->
+    <section class="section" id="journey" aria-labelledby="journeyTitle">
+      <div class="container">
+        <header class="shead" data-anim="head">
+          <h2 class="shead__title" id="journeyTitle">My Journey</h2>
+          <p class="shead__note">Education and experience, connected</p>
+        </header>
+
+        <ol class="journey" id="journeyList">
+          <li class="journey__track" aria-hidden="true"><span class="journey__fill" id="journeyFill"></span></li>
+
+          <li class="journey__item" id="education">
+            <span class="journey__node" aria-hidden="true"></span>
+            <p class="journey__meta"><span>Step 01 · Education</span><span class="journey__state journey__state--done">Completed</span></p>
+            <div class="journey__main">
+              <h3 class="journey__title">9th &amp; 10th Grade</h3>
+              <p class="journey__text">Completed secondary education.</p>
+              <!-- OPTIONAL: <p class="journey__org">School name</p> -->
+            </div>
+          </li>
+
+          <li class="journey__item">
+            <span class="journey__node" aria-hidden="true"></span>
+            <p class="journey__meta"><span>Step 02 · Education</span><span class="journey__state">In Progress</span></p>
+            <div class="journey__main">
+              <h3 class="journey__title">Intermediate</h3>
+              <p class="journey__text">Currently continuing my Intermediate studies alongside my web development work.</p>
+              <!-- OPTIONAL: <p class="journey__org">College name</p> -->
+            </div>
+          </li>
+
+          <li class="journey__item journey__item--now" id="experience">
+            <span class="journey__node" aria-hidden="true"></span>
+            <p class="journey__meta"><span>Step 03 · Experience</span><span class="journey__state">2 Years</span></p>
+            <div class="journey__main">
+              <h3 class="journey__title">Web Developer</h3>
+              <!-- OPTIONAL: <p class="journey__org">Company name</p> -->
+              <ul class="journey__list">
+                <li>Developed and maintained responsive websites using HTML, CSS and JavaScript.</li>
+                <li>Built and customized WordPress websites according to project requirements.</li>
+                <li>Worked with React to create modern component-based user interfaces.</li>
+                <li>Focused on clean UI, responsive layouts and website usability.</li>
+              </ul>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============================== CONTACT — the finale ============================== -->
+    <section class="finale" id="contact" aria-labelledby="contactTitle">
+      <div class="finale__wordmark" aria-hidden="true"><span class="fit" data-fit>ES<span class="wm--dot"></span>DEV</span></div>
+
+      <div class="container finale__inner">
+        <h2 class="finale__title" id="contactTitle" data-anim="words-lg">
+          <span class="finale__title-a">Have an idea?</span>
+          <span>Let's turn it into</span>
+          <span>something real.</span>
+        </h2>
+
+        <div class="finale__grid">
+          <div class="finale__side" data-anim="fade">
+            <p class="finale__lead">Have a project, collaboration or opportunity in mind? Feel free to get in touch.</p>
+
+            <ul class="contact__list">
+              <li>
+                <a class="contact__item" href="mailto:essamuhammad5056@gmail.com">
+                  <span class="contact__label">Email</span>
+                  <span class="contact__value">essamuhammad5056@gmail.com</span>
+                </a>
+              </li>
+              <!-- Phone is shown because it is on Essa's CV. Delete this <li> to keep the number private. -->
+              <li>
+                <a class="contact__item" href="tel:+923442611643">
+                  <span class="contact__label">Call / WhatsApp</span>
+                  <span class="contact__value">0344 2611643</span>
+                </a>
+              </li>
+              <li>
+                <div class="contact__item">
+                  <span class="contact__label">Location</span>
+                  <span class="contact__value">Karachi, Pakistan</span>
+                </div>
+              </li>
+            </ul>
+
+            <!-- Social links from Essa's CV. OPTIONAL: add GitHub / LinkedIn here once you have profile URLs. -->
+            <ul class="socials" aria-label="Social profiles">
+              <li><a class="socials__link" href="https://www.instagram.com/essa.webdev/" target="_blank" rel="noopener noreferrer" aria-label="Instagram: @essa.webdev (opens in a new tab)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.500" y="3.500" width="17" height="17" rx="4.500"/><circle cx="12" cy="12" r="3.800"/><circle cx="17.200" cy="6.800" r=".6"/></svg></a></li>
+              <li><a class="socials__link" href="https://wa.me/923442611643" target="_blank" rel="noopener noreferrer" aria-label="Message Essa on WhatsApp (opens in a new tab)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.300-4.200A8 8 0 1 1 8.400 19L4 20Z"/><path d="M9.300 8.700c-.3 1 .3 2.400 1.600 3.700s2.800 2 3.800 1.700l.7-1.200-1.600-1-.8.600c-.6-.2-1.700-1.300-1.900-1.900l.6-.8-1-1.600-1.400.500Z"/></svg></a></li>
+              <li><a class="socials__link" href="mailto:essamuhammad5056@gmail.com" aria-label="Email Essa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Zm-.5 1.500L12 13l8.500-5.500"/></svg></a></li>
+            </ul>
+
+          </div>
+
+          <form class="form" id="contactForm" novalidate data-anim="fade">
+            <div class="form__head">
+              <h3 class="form__title">Send me a message</h3>
+              <p class="form__hint">Fields marked <span class="req" aria-hidden="true">*</span><span class="sr-only">with a star</span> are required.</p>
+            </div>
+
+            <div class="form__row">
+              <div class="field">
+                <label class="field__label" for="name">Your name <span class="req" aria-hidden="true">*</span></label>
+                <input class="field__input" id="name" name="name" type="text" autocomplete="name" placeholder="Full name" aria-describedby="nameError" required>
+                <p class="field__error" id="nameError" aria-live="polite"></p>
+              </div>
+              <div class="field">
+                <label class="field__label" for="email">Your email <span class="req" aria-hidden="true">*</span></label>
+                <input class="field__input" id="email" name="email" type="email" autocomplete="email" placeholder="name@example.com" aria-describedby="emailError" required>
+                <p class="field__error" id="emailError" aria-live="polite"></p>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="subject">Subject <span class="req" aria-hidden="true">*</span></label>
+              <input class="field__input" id="subject" name="subject" type="text" placeholder="New website, job offer, question…" aria-describedby="subjectError" required>
+              <p class="field__error" id="subjectError" aria-live="polite"></p>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="message">Message <span class="req" aria-hidden="true">*</span></label>
+              <textarea class="field__input field__input--area" id="message" name="message" rows="5" placeholder="Tell me what you need, your timeline and anything else that helps." aria-describedby="messageError" required></textarea>
+              <p class="field__error" id="messageError" aria-live="polite"></p>
+            </div>
+
+            <!-- Spam trap: real visitors never see or fill this field. -->
+            <div class="form__trap" aria-hidden="true">
+              <label for="website">Leave this field empty</label>
+              <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+            </div>
+
+            <div class="form__footer">
+              <button class="btn btn--primary" type="submit" id="formSubmit">
+                <span id="formSubmitLabel">Send Message</span>
+                <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 16 8m0 0H9.500M16 8v6.500"/></svg>
+              </button>
+              <!-- Messages are saved to a Google Sheet once FORM_ENDPOINT is set in script.js (see google-sheets/SETUP.txt). -->
+              <p class="form__status" id="formStatus" role="status" aria-live="polite"></p>
+            </div>
+          </form>
+
+          <!-- EDIT: describe how you really work. No reply times are promised here on purpose. -->
+          <div class="steps" data-anim="fade">
+            <h3 class="steps__title">What happens next</h3>
+            <ol class="steps__list">
+              <li><span>01</span>You send me a message with what you need.</li>
+              <li><span>02</span>I reply by email or WhatsApp with questions and a plan.</li>
+              <li><span>03</span>We agree on scope, timeline and price before any work starts.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================== FOOTER ============================== -->
+  <footer class="footer" id="footer">
+    <div class="container footer__inner">
+      <p class="footer__copy">© 2026 ES.DEV. All rights reserved.</p>
+      <p class="footer__credit">Designed &amp; Developed by Essa Muhammad</p>
+      <a class="footer__top" href="#home">Back to top</a>
+    </div>
+  </footer>
+
+  <script type="module">
+    // Original SuperDesign / threejs-components TubesCursor effect.
+    // The website UI is intentionally untouched; only this hero background layer is added.
+    const canvas = document.getElementById('tubes-canvas');
+    const hero = document.getElementById('home');
+
+    if (canvas && hero) {
+      try {
+        const module = await import('https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js');
+        const TubesCursor = module.default;
+
+        TubesCursor(canvas, {
+          tubes: {
+            count: 40,
+            radius: 0.15,
+            segments: 64,
+            colors: ['#00D9FF', '#0080FF', '#FFFFFF'],
+            opacity: 0.8,
+            lights: {
+              intensity: 150,
+              colors: ['#00D9FF', '#0080FF', '#FFFFFF']
+            }
+          }
+        });
+
+        // Keep the original cursor response. When the pointer is idle, feed the
+        // same cursor effect a very slow elliptical path so the tubes never freeze.
+        let lastRealMove = performance.now();
+        hero.addEventListener('pointermove', () => { lastRealMove = performance.now(); }, { passive: true });
+
+        const idleStart = performance.now();
+        function idleOrbit(now) {
+          if (now - lastRealMove > 1200) {
+            const rect = hero.getBoundingClientRect();
+            const t = (now - idleStart) * 0.00022;
+            const x = rect.left + rect.width * (0.50 + Math.cos(t) * 0.27);
+            const y = rect.top + rect.height * (0.48 + Math.sin(t * 0.82) * 0.22);
+            canvas.dispatchEvent(new PointerEvent('pointermove', { clientX: x, clientY: y, bubbles: true }));
+            canvas.dispatchEvent(new MouseEvent('mousemove', { clientX: x, clientY: y, bubbles: true }));
+          }
+          requestAnimationFrame(idleOrbit);
+        }
+        requestAnimationFrame(idleOrbit);
+      } catch (error) {
+        console.error('Tubes background failed to load:', error);
+        // Never fall back to a dark background. The existing light hero remains visible.
+        canvas.style.display = 'none';
+      }
+    }
+  </script>
+
+</body>
+</html>
