@@ -590,31 +590,38 @@
 
           <!-- shown in place of the form after a successful send (script.js) -->
           <div class="ticket" id="formDone" hidden role="status" aria-live="polite">
-            <div class="ticket__head">
-              <span class="ticket__pulse" aria-hidden="true"></span>
-              <span class="ticket__status">Delivered</span>
+            <div class="ticket__band">
+              <span class="ticket__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6 12.500 4 4L18 8"/></svg></span>
+              <div class="ticket__band-text">
+                <span class="ticket__status">Delivered to Essa's inbox</span>
+                <span class="ticket__time" id="ticketTime">—</span>
+              </div>
               <span class="ticket__ref" id="ticketRef">ES-0000</span>
             </div>
+            <div class="ticket__tear" aria-hidden="true"></div>
 
-            <h3 class="ticket__title">Got it, <span id="formDoneName">friend</span>.</h3>
+            <div class="ticket__body">
+              <h3 class="ticket__title">Got it, <span id="formDoneName">friend</span>.</h3>
+              <p class="ticket__lead">Your message is safely with me. I read every message myself and reply by email.</p>
 
-            <dl class="ticket__meta">
-              <div><dt>To</dt><dd>Essa Muhammad</dd></div>
-              <div><dt>From</dt><dd id="ticketFrom">—</dd></div>
-              <div><dt>Subject</dt><dd id="ticketSubject">—</dd></div>
-              <div><dt>Sent</dt><dd id="ticketTime">—</dd></div>
-            </dl>
+              <dl class="ticket__meta">
+                <div><dt><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg>From</dt><dd id="ticketFrom">—</dd></div>
+                <div><dt><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Zm-.5 1.500L12 13l8.500-5.500"/></svg>Reply to</dt><dd id="ticketReply">—</dd></div>
+                <div class="ticket__meta-wide"><dt><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12 12 20l-8-8V4h8l8 8Z"/><circle cx="8" cy="8" r="1.500"/></svg>Subject</dt><dd id="ticketSubject">—</dd></div>
+              </dl>
 
-            <ol class="track">
-              <li class="track__step is-done"><span class="track__node"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12.500 4 4L18 8"/></svg></span><span class="track__label">Message sent</span></li>
-              <li class="track__step is-next"><span class="track__node"></span><span class="track__label">Essa reads it</span></li>
-              <li class="track__step"><span class="track__node"></span><span class="track__label">You get a reply by email or WhatsApp</span></li>
-            </ol>
+              <ol class="track">
+                <li class="track__step is-done"><span class="track__node"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12.500 4 4L18 8"/></svg></span><span class="track__label"><b>Sent</b>Your message reached me</span></li>
+                <li class="track__step is-next"><span class="track__node">02</span><span class="track__label"><b>Reading</b>Essa reads it personally</span></li>
+                <li class="track__step"><span class="track__node">03</span><span class="track__label"><b>Reply</b>You get an email back</span></li>
+              </ol>
 
-            <div class="ticket__actions">
-              <a class="btn btn--primary" href="https://wa.me/923442611643" target="_blank" rel="noopener noreferrer">Continue on WhatsApp</a>
-              <button class="btn btn--ghost" id="formAgain" type="button">Send another</button>
+              <div class="ticket__actions">
+                <button class="btn btn--primary" id="formAgain" type="button">Send another message</button>
+                <a class="btn btn--ghost" href="#projects">Explore my work</a>
+              </div>
             </div>
+          </div>
           </div>
           </div>
 

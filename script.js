@@ -1113,9 +1113,12 @@
     function showDone(data) {
       if (!done) return;
       var who = doc.getElementById('formDoneName');
-      if (who) who.textContent = data.name ? data.name.split(/\s+/)[0] : 'friend';
+      // first name, in Title Case however it was typed
+      var first = data.name ? data.name.trim().split(/\s+/)[0] : '';
+      if (who) who.textContent = first ? first.charAt(0).toUpperCase() + first.slice(1).toLowerCase() : 'friend';
       var set = function (id, value) { var el = doc.getElementById(id); if (el) el.textContent = value; };
-      set('ticketFrom', data.email || '—');
+      set('ticketFrom', data.name || '—');
+      set('ticketReply', data.email || '—');
       set('ticketSubject', data.subject || '—');
       var now = new Date();
       set('ticketTime', now.toLocaleString(undefined, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }));
